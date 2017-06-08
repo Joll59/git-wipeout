@@ -6,10 +6,15 @@ This is a simple script I wrote to erase the assignments I completed as a coding
 
 #### API Access
 
-To access the Github API, you will need to create an access token [here](https://github.com/settings/tokens). In the scripts folder, create a new file named `key.js`. In this file create a constant representing the base url for the API calls: `const BASEURL = "https://api.github.com"`. Also create a const TOKEN equal to your token string.
+To access the Github API, you will need to create an access token [here](https://github.com/settings/tokens). In the scripts folder, create a new file named `key.js`. In this file add `const TOKEN = "your_github_token"`, making sure to substitute your own token in for the underscored text. This file is gitignored, so you won't be able to accidentally push your token to Github.
+
+#### Set-Up
+
+Set your Github username equal to the const USERNAME defined at the top of index.js. The CLASSNAMES const at the top of index.js contains an array of common demarcations Flatiron labs contain in the titles. Add any others which apply to your labs. If you were in the 040317 class, your labs will probably end in "web-040317", so add that to the array. This will filter our search so we can make sure we are only removing forked labs.
+
 
 #### Running the Script
 
-You can clone this repo, open up `index.html` in the browser and then run the commands in the developer's console. `gitRun` is the function which runs all the other functions. It takes an argument of the name of the Flatiron class. For example I was class 0916, so most of my repos ended in "web-0916" since the labs are deployed separately to each class. Passing "web-0916" to `gitRun` initiates a search for repos owned by the owner of the Github token (me) which contain the string "web-0916" in the repo name. A separate delete request is then sent for each of these repos.
+Clone this repo, cd into its directory, run `npm install`, open up `index.html` in the browser and then run the commands in the developer's console. `gitRun()` (no arguments) is the function which runs all the other functions. It initiates a search for all repos owned by the owner of the Github token which contain any of the strings from CLASSNAMES in the repo name. A separate delete request is then sent for each of these repos.
 
-The API call is currently set to return 100 repositories at a time (before the filtering by name step). You may have to run the script a few times to remove all Flatiron labs.
+The API call returns a max of 100 repositories at a time (before the filtering step). `gitRun` will execute the API call 5 times which should be more than enough to remove all the Flatiron labs (~350).
