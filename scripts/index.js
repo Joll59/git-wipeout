@@ -1,19 +1,33 @@
 function getRepos() {
-  return fetch(`${BASEURL}/user/repos?access_token=${TOKEN}`)
+  let url = `${BASEURL}/user/repos?&per_page=100&type=owner&access_token=${TOKEN}`
+  return fetch(url)
   .then(resp => resp.json())
-  .then(r => filterRepos(r))
 }
 
-function filterRepos(repos) {
-  repos.filter(function(repo) {
-    return repo.fork === true
+function filterRepos(repos, className) {
+  return repos.filter(function(repo) {
+    return repo.fork === true && repo.name.includes(className)
   })
 }
 
-function deleteRepos(repoName) {
-  fetch(`${BASEURL}/repos/nikymorg/${repoName}?access_token=${TOKEN}`, {
+function deleteRepo(repo) {
+  let repoName = repo.name
+  let url = `${BASEURL}/repos/nikymorg/${repoName}?access_token=${TOKEN}`
+  fetch(url, {
     method: 'DELETE'
   })
 }
 
-getRepos()
+function repoNames(repos) {
+  return repos.map((repo) => repo.name)
+}
+
+function gitRun(className) {
+  getRepos()
+  .then((repos) => {
+    return filterRepos(repos, className)
+  })
+  .then((repos) => {
+    repos.forEach(deleteRepo)
+  })
+}
