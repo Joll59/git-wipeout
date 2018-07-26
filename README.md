@@ -6,7 +6,7 @@ This is a simple script I wrote to erase the assignments I completed as a coding
 
 #### API Access
 
-To access the Github API, you will need to create an access token [here](https://github.com/settings/tokens). In the scripts folder, create a new file named `key.js`. In this file add `const TOKEN = "your_github_token"`, making sure to substitute your own token in for the underscored text. This file is gitignored, so you won't be able to accidentally push your token to Github.
+To access the Github API, you will need to create an access token [here](https://github.com/settings/tokens). Make sure to give this access token permission to delete repositories. In the scripts folder, create a new file named `key.js`. In this file add `const TOKEN = "your_github_token"`, making sure to substitute your own token in for the underscored text. This file is gitignored, so you won't be able to accidentally push your token to Github.
 
 #### Set-Up
 
