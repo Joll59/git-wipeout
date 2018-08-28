@@ -1,15 +1,21 @@
+
+require('isomorphic-fetch');
+const key = require("./key")
+
 const BASEURL = "https://api.github.com"
-const USERNAME = ""
+const USERNAME = key.userName;
+const TOKEN = key.TOKEN;
 const CLASSNAMES = [
   "js-apply",
   "ruby-apply",
   "bootcamp-prep",
   "intro-js",
-  "intro-ruby"
+  "intro-ruby",
+  "000"
 ]
 
 // retrieves 100 owned repos at a time
-function getRepos(pageNum) {
+const getRepos = (pageNum) => {
   let url = `${BASEURL}/user/repos?page=${pageNum}&per_page=100&type=owner&access_token=${TOKEN}`
   return fetch(url)
   .then(resp => resp.json())
@@ -17,11 +23,11 @@ function getRepos(pageNum) {
 
 
 // filters out Flatiron repos
-function filterRepos(repos) {
+const filterRepos = (repos) => {
   return repos.filter(repoCheck)
 }
 
-function repoCheck (repo) {
+const repoCheck = (repo) => {
   if (repo.fork && CLASSNAMES.some(name => repo.name.includes(name))) {
     return repo
   }
@@ -29,7 +35,7 @@ function repoCheck (repo) {
 
 
 // deletes filtered repos
-function deleteRepo(repo) {
+const deleteRepo = (repo) => {
   let repoName = repo.name
   let url = `${BASEURL}/repos/${USERNAME}/${repoName}?access_token=${TOKEN}`
   fetch(url, {
@@ -39,7 +45,7 @@ function deleteRepo(repo) {
 
 
 // runner function
-function gitRun() {
+const gitRun = () => {
   for (let pageNum=1; pageNum<=5; pageNum++) {
     getRepos(pageNum)
     .then(repos => {
@@ -47,15 +53,18 @@ function gitRun() {
     })
     .then(repos => {
       if (repos.length === 0) {
-        console.log(`Nothing to delete on page ${pageNum}`)
+        console.info(`Nothing to delete on page ${pageNum}`)
       } else {
         let repoNames = repos.map(repo => repo.name)
         repos.forEach(deleteRepo)
-        console.log(`Page ${pageNum} deleted:`, repoNames)
+        console.warn(`Page ${pageNum} deleted:`, repoNames)
       }
     })
     .catch(data => {
-      console.log(`There were errors on page ${pageNum}. Please try again.`, data)
+      console.error(`There were errors on page ${pageNum}. Please try again.`, data)
     })
   }
 }
+
+// executes the function and gets things started.
+gitRun();

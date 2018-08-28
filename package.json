@@ -3,9 +3,9 @@
   "description": "This is a simple script I wrote to erase the assignments I completed as a coding boot camp student. Each student \"lab\" was completed by forking a Flatiron repository and submitting a pull request to the original repo once finished.",
   "version": "1.0.0",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./scripts/index.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/nikymorg/git-wipeout#readme",
   "dependencies": {
+    "isomorphic-fetch": "^2.2.1",
     "node-fetch": "^1.7.1",
     "requirejs": "^2.3.3"
   }
